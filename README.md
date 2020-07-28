@@ -1,2 +1,3 @@
 # conftest-combile-example
-An example to validate Kubernetes manifest with conftest combined rule
+
+This is an example to validate Kubernetes manifest with conftest combined rule.
