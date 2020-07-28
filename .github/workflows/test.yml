@@ -1,0 +1,12 @@
+name: test
+
+on:
+  - push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # expect make exits with status code 2
+    - run: make; test $? -eq 2
