@@ -6,7 +6,7 @@ This is an example to validate Kubernetes manifests with a cross-document rule u
 ## Example use case
 
 When you create a HPA (horizontal pod autoscaler) resource, you need to remove `replicas` field from the corresponding Deployment resource.
-This is because HPA automatically sets `replicas` field and it should not be changed in CIOps/GitOps.
+This is because HPA automatically sets `replicas` field and it should not be changed in CIOps/GitOps. See also [the best practice in Argo CD](https://argoproj.github.io/argo-cd/user-guide/best_practices/).
 
 You can test this rule using [conftest](https://www.conftest.dev/).
 
