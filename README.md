@@ -1,6 +1,6 @@
 # conftest-combile-example ![test](https://github.com/int128/conftest-combile-example/workflows/test/badge.svg)
 
-This is an example to validate Kubernetes manifests with conftest combined rule.
+This is an example to validate Kubernetes manifests with a cross-document rule using conftest.
 
 
 ## Example use case
@@ -10,7 +10,8 @@ This is because HPA automatically sets `replicas` field and it should not be cha
 
 You can test this rule using [conftest](https://www.conftest.dev/).
 
-Run conftest and you will get the following result:
+This repository contains manifests [`HorizontalPodAutoscaler`](hpa.yaml) and [`Deployment`](deployment.yaml) which has `replicas` field.
+You can validate the manifests:
 
 ```console
 % make
