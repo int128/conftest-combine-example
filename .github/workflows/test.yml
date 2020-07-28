@@ -5,6 +5,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    # expect make exits with status code 2
-    - run: make; test $? -eq 2
+      # https://kubernetes-sigs.github.io/kustomize/installation/binaries/
+      - run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin
+      # https://www.conftest.dev/install/
+      - run: |
+          wget https://github.com/open-policy-agent/conftest/releases/download/v0.20.0/conftest_0.20.0_Linux_x86_64.tar.gz
+          tar xzf conftest_0.20.0_Linux_x86_64.tar.gz
+          sudo mv conftest /usr/local/bin
+      - uses: actions/checkout@v2
+      # expect make exits with status code 2
+      - run: make; test $? -eq 2
