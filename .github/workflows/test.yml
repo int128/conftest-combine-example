@@ -17,7 +17,7 @@ jobs:
           wget "https://github.com/open-policy-agent/conftest/releases/download/v${LATEST_VERSION}/conftest_${LATEST_VERSION}_Linux_x86_64.tar.gz"
           tar xzf conftest_${LATEST_VERSION}_Linux_x86_64.tar.gz
           sudo mv conftest /usr/local/bin
-      - run: kustomize build -o kustomization.yaml
-      - run: conftest test -o github --combine kustomization.yaml
+      - run: kustomize build -o /tmp/combine.yaml
+      - run: conftest test -o github --combine /tmp/combine.yaml
         # expect conftest exits with an error
         continue-on-error: true
