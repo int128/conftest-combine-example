@@ -1,20 +1,23 @@
 name: test
-on: [push]
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  test:
+  conftest:
     runs-on: ubuntu-latest
     steps:
-      # https://kubernetes-sigs.github.io/kustomize/installation/binaries/
-      - run: |
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-          sudo mv kustomize /usr/local/bin
+      - uses: actions/checkout@v3
       # https://www.conftest.dev/install/
       - run: |
-          wget https://github.com/open-policy-agent/conftest/releases/download/v0.20.0/conftest_0.20.0_Linux_x86_64.tar.gz
-          tar xzf conftest_0.20.0_Linux_x86_64.tar.gz
+          LATEST_VERSION=$(wget -O - "https://api.github.com/repos/open-policy-agent/conftest/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 2-)
+          wget "https://github.com/open-policy-agent/conftest/releases/download/v${LATEST_VERSION}/conftest_${LATEST_VERSION}_Linux_x86_64.tar.gz"
+          tar xzf conftest_${LATEST_VERSION}_Linux_x86_64.tar.gz
           sudo mv conftest /usr/local/bin
-      - uses: actions/checkout@v2
-      - run: make
-        # expect make exits with an error status code
+      - run: kustomize build -o /tmp/combine.yaml
+      - run: conftest test -o github --combine /tmp/combine.yaml
+        # expect conftest exits with an error
         continue-on-error: true
